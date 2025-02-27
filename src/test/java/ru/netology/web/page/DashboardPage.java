@@ -6,7 +6,6 @@ import com.codeborne.selenide.SelenideElement;
 import lombok.val;
 import ru.netology.web.data.DataHelper;
 
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -24,22 +23,22 @@ public class DashboardPage {
         heading.shouldBe(visible);
     }
 
-        public int getCardBalance(DataHelper.CardInfo cardInfo) {
-            var text = getCard(cardInfo).getText();
-            return extractBalance(text);
-        }
+    public int getCardBalance(DataHelper.CardInfo cardInfo) {
+        var text = getCard(cardInfo).getText();
+        return extractBalance(text);
+    }
 
-        public TransferPage selectCardToTransfer(DataHelper.CardInfo cardInfo) {
-            getCard(cardInfo).$("button").click();
-            return new TransferPage();
-        }
+    public TransferPage selectCardToTransfer(DataHelper.CardInfo cardInfo) {
+        getCard(cardInfo).$("button").click();
+        return new TransferPage();
+    }
 
-        private SelenideElement getCard(DataHelper.CardInfo cardInfo) {
-            return  cards.findBy(Condition.attribute("data-test-id", cardInfo.getId()));
-        }
+    private SelenideElement getCard(DataHelper.CardInfo cardInfo) {
+        return cards.findBy(Condition.attribute("data-test-id", cardInfo.getId()));
+    }
 
 
-        private int extractBalance(String text) {
+    private int extractBalance(String text) {
         val start = text.indexOf(balanceStart);
         val finish = text.indexOf(balanceFinish);
         val value = text.substring(start + balanceStart.length(), finish);
