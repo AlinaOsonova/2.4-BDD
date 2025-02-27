@@ -14,7 +14,7 @@ public class TransferPage {
     private final SelenideElement fromInput = $("[data-test-id='from'] input");
     private final SelenideElement transferButton = $("[data-test-id='action-transfer']");
     private final SelenideElement headTransfer = $(byText("Пополнение карты"));
-    private final SelenideElement errorNotification = $("[data-test-id='error-notification']");
+    private final SelenideElement errorNotification = $("[data-test-id='error-notification'] .notification__content");
 
 
     public TransferPage() {
@@ -22,7 +22,7 @@ public class TransferPage {
     }
 
     public DashboardPage makeValidTransfer(String amount, DataHelper.CardInfo cardInfo) {
-        makeValidTransfer(amount, cardInfo);
+        makeTransfer(amount, cardInfo);
         return new DashboardPage();
     }
 
@@ -34,7 +34,7 @@ public class TransferPage {
 
 
     public void findErrorNotification(String expectedText) {
-        errorNotification.should(Condition.and("Проверка сообщения об ошибке", Condition.text(expectedText), visible));
+        errorNotification.should(Condition.and("Проверка сообщения об ошибке", Condition.text(expectedText), Condition.visible));
     }
 }
 

@@ -22,21 +22,24 @@ public class DashboardPage {
     public DashboardPage() {
 
         heading.shouldBe(visible);
-
     }
 
-    public int getCardBalance(DataHelper.CardInfo cardInfo) {
-        var text = cards.findBy(text(cardInfo.getNumber())).getText();
-        return extractBalance(text);
-    }
+        public int getCardBalance(DataHelper.CardInfo cardInfo) {
+            var text = getCard(cardInfo).getText();
+            return extractBalance(text);
+        }
 
-    public TransferPage selectCardToTransfer(DataHelper.CardInfo cardInfo) {
-        cards.findBy(Condition.attribute("data-test-id", cardInfo.getNumber())).$("button").click();
-        return new TransferPage();
-    }
+        public TransferPage selectCardToTransfer(DataHelper.CardInfo cardInfo) {
+            getCard(cardInfo).$("button").click();
+            return new TransferPage();
+        }
+
+        private SelenideElement getCard(DataHelper.CardInfo cardInfo) {
+            return  cards.findBy(Condition.attribute("data-test-id", cardInfo.getId()));
+        }
 
 
-    private int extractBalance(String text) {
+        private int extractBalance(String text) {
         val start = text.indexOf(balanceStart);
         val finish = text.indexOf(balanceFinish);
         val value = text.substring(start + balanceStart.length(), finish);
